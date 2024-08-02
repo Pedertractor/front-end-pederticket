@@ -1,0 +1,39 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: 'Poppins', serif;
+  height: 100vh;
+}
+
+details > summary {
+  list-style: none;
+}
+
+details > summary::-webkit-details-marker {
+  display: none;
+}
+
+#root {
+  height: 100vh;
+}
+
+@layer components {
+  .corner-top {
+    --mask: radial-gradient(20px at 20px 0, #0000 98%, #000) -20px;
+    -webkit-mask: var(--mask);
+    mask: var(--mask);
+  }
+
+  .corner-bottom {
+    --mask: radial-gradient(20px at 20px 100%, #0000 98%, #000) -20px;
+    -webkit-mask: var(--mask);
+    mask: var(--mask);
+  }
+
+  .background-blur {
+    background-color: rgba(255, 255, 255, 0.8); /* Cor de fundo com opacidade */
+    backdrop-filter: blur(10px); /* Aplicar efeito de desfoque */
+  }
+}
