@@ -4,13 +4,16 @@ export async function submitVisitorRegistration(
   FormData: VisitorRegistrationType
 ) {
   try {
-    const response = await fetch(`${process.env.API_URL}/scheduling/create`, {
-      method: 'POST',
-      headers: {
-        'Content-type': 'application/json',
-      },
-      body: JSON.stringify(FormData),
-    });
+    const response = await fetch(
+      `${import.meta.env.API_URL}/scheduling/create`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-type': 'application/json',
+        },
+        body: JSON.stringify(FormData),
+      }
+    );
 
     // const data = await response.json();
 
@@ -28,7 +31,7 @@ export async function submitVisitorRegistration(
 export async function getTicket(publicTicketId: string) {
   try {
     const response = await fetch(
-      `${process.env.API_URL}/scheduling/${publicTicketId}`,
+      `${import.meta.env.API_URL}/scheduling/${publicTicketId}`,
       {
         method: 'GET',
         headers: {
