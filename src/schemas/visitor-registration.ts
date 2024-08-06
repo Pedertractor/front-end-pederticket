@@ -29,6 +29,7 @@ export const CollaboratorSchema = z.object({
     .min(1, 'Cartão é obrigatório!')
     .max(999999, 'Digite um cartão válido!'),
   sector: z.string().min(1, 'Setor é obrigatório!'),
+  telephoneNumber: z.string().min(1, 'Telefone é obrigatório!'),
   familyMembers: z.array(FamilyMemberSchema).optional(),
 });
 

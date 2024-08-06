@@ -20,6 +20,7 @@ export interface CollaboratorType {
   cardNumber: string;
   sector: string;
   familyMembers: FamilyMemberType[];
+  telephoneNumber: string;
 }
 
 export interface VisitorRegistrationType {
@@ -29,7 +30,12 @@ export interface VisitorRegistrationType {
   collaborator: CollaboratorType;
 }
 
-export interface TicketDataType extends VisitorRegistrationType {
-  valor: number;
-  publicTicketId: number;
+export interface TicketDataType {
+  ticket: {
+    codigoTicket: number;
+    data: string;
+    horario: string;
+    quantidadeFamiliares: number;
+    numeroCartao: number;
+  };
 }

@@ -6,6 +6,7 @@ interface InputFieldProps<TFormValues extends FieldValues> {
   register: UseFormRegister<TFormValues>;
   defaultValue?: PathValue<TFormValues, Path<TFormValues>>;
   content: React.ReactNode;
+  active: boolean;
 }
 
 export function InputRadio<TFormValues extends FieldValues>({
@@ -14,15 +15,17 @@ export function InputRadio<TFormValues extends FieldValues>({
   register,
   defaultValue,
   content,
+  active,
 }: InputFieldProps<TFormValues>) {
   return (
-    <div className='flex-1'>
-      <label>
+    <div className='flex flex-grow justify-center'>
+      <label className='sm:min-w-40'>
         <input
           {...register(name)}
           className='hidden peer'
           type='radio'
           value={value}
+          disabled={!active}
           defaultChecked={value === defaultValue}
         />
         {content}

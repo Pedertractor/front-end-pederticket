@@ -1,32 +1,27 @@
-// import { useState } from 'react';
-// import { useParams } from 'react-router-dom';
-// import { TicketDataType } from '../../types/visitor-registration';
-
-const ticketData = {
-  data: '23/12/2024',
-  horario: '13:00h',
-  quantidadeFamiliares: '03 pessoas',
-  cartao: 3131,
-  valor: 0.0,
-  codigo: 123456789,
-};
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { getTicket } from '../../api/api';
+import { TicketDataType } from '../../types/visitor-registration';
 
 export default function ConfirmationTicket() {
-  // const [ticket, setTicket] = useState<TicketDataType>();
-  // const { publicTicketId } = useParams() as { publicTicketId: string };
+  const [ticket, setTicket] = useState<TicketDataType>();
+  const { publicTicketId } = useParams() as { publicTicketId: string };
 
-  // const
+  useEffect(() => {
+    const fetchTicketData = async () => {
+      try {
+        const ticketData = await getTicket(publicTicketId);
 
-  // useEffect(() => {
-  //   async () => {
-  //     const ticketData = await getTicket(publicTicketId);
+        if (ticketData) {
+          setTicket(ticketData);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
 
-  //     console.log(ticketData);
-  //     // if (ticketData) {
-  //     //   setTicket(ticketData);
-  //     // }
-  //   };
-  // }, [publicTicketId]);
+    fetchTicketData();
+  }, [publicTicketId]);
 
   return (
     <main className='h-full bg-stone-200 p-4'>
@@ -58,56 +53,62 @@ export default function ConfirmationTicket() {
           <hr className='h-0.5 bg-stone-200' />
         </section>
 
-        <section className='px-6 pt-8 pb-8 bg-white border-b-4 border-dashed corner-bottom'>
-          <div className='grid grid-cols-2 gap-y-4 text-sm min-[380px]:text-base min-[380px]:gap-y-6'>
-            <div className='col-span-2'>
-              <p className='font-semibold text-stone-600'>Descrição</p>
-              <p>2ª Semana da família do grupo Pedertractor</p>
-            </div>
-            <div className='col-span-2'>
-              <p className='font-semibold text-stone-600'>Local do evento</p>
-              <p>Industria Pedertractor</p>
-            </div>
-            <div className='col-span-1'>
-              <p className='font-semibold text-stone-600'>Data</p>
-              <p>{ticketData.data}</p>
-            </div>
-            <div className='col-span-1'>
-              <p className='font-semibold text-stone-600'>Horário</p>
-              <p>{ticketData.horario}</p>
-            </div>
-            <div className='col-span-1'>
-              <p className='font-semibold text-stone-600'>Quant. familiares</p>
-              <p>{ticketData.quantidadeFamiliares}</p>
-            </div>
-            <div className='col-span-1'>
-              <p className='font-semibold text-stone-600'>Cartão</p>
-              <p>{ticketData.cartao}</p>
-            </div>
-            <div className='col-span-1'>
-              <p className='font-semibold text-stone-600'>Valor</p>
-              <p>
-                {ticketData.valor.toLocaleString('pt-br', {
-                  style: 'currency',
-                  currency: 'BRL',
-                })}
-              </p>
-            </div>
-            {/* <div className='col-span-1'>
-              <p className='font-semibold text-stone-600'>Código do ticket</p>
-              <p>{ticketData.codigo}</p>
-            </div> */}
-          </div>
-        </section>
+        {ticket?.ticket && (
+          <>
+            <section className='px-6 pt-8 pb-8 bg-white border-b-4 border-dashed corner-bottom'>
+              <div className='grid grid-cols-2 gap-y-4 text-sm min-[380px]:text-base min-[380px]:gap-y-6'>
+                <div className='col-span-2'>
+                  <p className='font-semibold text-stone-600'>Descrição</p>
+                  <p>2ª Semana da família do grupo Pedertractor</p>
+                </div>
+                <div className='col-span-2'>
+                  <p className='font-semibold text-stone-600'>
+                    Local do evento
+                  </p>
+                  <p>Industria Pedertractor</p>
+                </div>
+                <div className='col-span-1'>
+                  <p className='font-semibold text-stone-600'>Data</p>
+                  <p>{ticket.ticket.data}</p>
+                </div>
+                <div className='col-span-1'>
+                  <p className='font-semibold text-stone-600'>Horário</p>
+                  <p>{ticket.ticket.horario}</p>
+                </div>
+                <div className='col-span-1'>
+                  <p className='font-semibold text-stone-600'>
+                    Quant. familiares
+                  </p>
 
-        <section className='flex items-center justify-center h-full p-6 corner-top bg-white rounded-b-md'>
-          <div className='col-span-1 w-9/12 rounded-md'>
-            <p className='text-stone-600 text-center font-bold'>
-              Código do ticket
-            </p>
-            <p className='text-center text-xl font-bold'>{ticketData.codigo}</p>
-          </div>
-        </section>
+                  {ticket.ticket.quantidadeFamiliares == 0 ? (
+                    <p>Sem familiares</p>
+                  ) : (
+                    <p>
+                      {`0${ticket.ticket.quantidadeFamiliares} familiar${
+                        ticket.ticket.quantidadeFamiliares > 1 ? 'es' : ''
+                      }`}
+                    </p>
+                  )}
+                </div>
+                <div className='col-span-1'>
+                  <p className='font-semibold text-stone-600'>Cartão</p>
+                  <p>{ticket.ticket.numeroCartao}</p>
+                </div>
+              </div>
+            </section>
+
+            <section className='flex items-center justify-center h-full p-6 corner-top bg-white rounded-b-md'>
+              <div className='col-span-1 w-9/12 rounded-md'>
+                <p className='text-stone-600 text-center font-bold'>
+                  Código do ticket
+                </p>
+                <p className='text-center text-xl font-bold'>
+                  {ticket.ticket.codigoTicket}
+                </p>
+              </div>
+            </section>
+          </>
+        )}
       </div>
     </main>
   );
