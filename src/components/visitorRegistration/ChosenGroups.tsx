@@ -5,6 +5,7 @@ import ChosenOptionsCard from './ChosenOptionsCard';
 type cardProps = {
   title: string;
   description: string;
+  active: boolean;
 };
 
 interface InputFieldProps<TFormValues extends FieldValues> {
@@ -30,22 +31,25 @@ export function ChosenGroups<TFormValues extends FieldValues>({
     <div>
       <p className='text-sm font-semibold min-[380px]:text-base'>{label}</p>
 
-      <div className='flex gap-x-2 leading-none'>
-        {value.map((value, index) => (
-          <InputRadio
-            key={index}
-            name={name}
-            value={value}
-            register={register}
-            defaultValue={defaultValue}
-            content={
-              <ChosenOptionsCard
-                title={cardProps[index].title}
-                description={cardProps[index].description}
-              />
-            }
-          />
-        ))}
+      <div className='flex flex-wrap gap-y-2 gap-x-2 leading-none'>
+        {cardProps &&
+          value.map((value, index) => (
+            <InputRadio
+              key={index}
+              name={name}
+              value={value}
+              register={register}
+              defaultValue={defaultValue}
+              active={cardProps[index].active}
+              content={
+                <ChosenOptionsCard
+                  active={cardProps[index].active}
+                  title={cardProps[index].title}
+                  description={cardProps[index].description}
+                />
+              }
+            />
+          ))}
       </div>
       <div className='flex min-h-4'>
         {errorMessage && (

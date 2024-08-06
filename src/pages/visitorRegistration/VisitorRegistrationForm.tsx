@@ -1,12 +1,20 @@
 import { useFormContext } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { IoClose } from 'react-icons/io5';
-import { submitVisitorRegistration } from '../../api/api';
+import { getAvailableOptions, submitVisitorRegistration } from '../../api/api';
 import { VisitorRegistrationType } from '../../types/visitor-registration';
 import { Input } from '../../components/ui/Input';
 import { ChosenGroups } from '../../components/visitorRegistration/ChosenGroups';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 // import AutocompleteInput from '../../components/ui/AutoCompleteInput';
+
+type groupCardProps = { title: string; description: string; active: boolean };
+export type availableOptionsQuery = {
+  date: string;
+  totalOptionOne: number;
+  totalOptionTwo: number;
+  totalOptionThree: number;
+};
 
 export default function VisitorRegistrationForm() {
   const {
@@ -19,21 +27,75 @@ export default function VisitorRegistrationForm() {
     trigger,
   } = useFormContext<VisitorRegistrationType>();
   const [showPopup, setShowPopup] = useState(false);
-
-  const valuesOfFamilyMembers = watch('collaborator.familyMembers');
-
+  const [availableOptionsList, setAvailableOptions] = useState<
+    groupCardProps[]
+  >([]);
   const navigate = useNavigate();
 
-  const dayCardProps = [
-    { title: 'Dia 01', description: '21/12/2024' },
-    { title: 'Dia 02', description: '22/12/2024' },
-    { title: 'Dia 03', description: '23/12/2024' },
-  ];
+  const valuesOfFamilyMembers = watch('collaborator.familyMembers');
+  const valueOfChosenDay = watch('chosenDay');
 
-  const groupCardProps = [
-    { title: 'Turma 01', description: '07:30h' },
-    { title: 'Turma 02', description: '10:30h' },
-    { title: 'Turma 03', description: '13:00h' },
+  useEffect(() => {
+    setValue('chosenGroup', 0);
+
+    const fetchTicketData = async () => {
+      try {
+        const availableOptions: availableOptionsQuery[] =
+          await getAvailableOptions();
+
+        if (availableOptions && valueOfChosenDay !== '') {
+          const valueOfChosenDayDate = new Date(valueOfChosenDay)
+            .toISOString()
+            .slice(0, 10);
+
+          const existingDate = availableOptions.find((item) => {
+            const valueOfChosenDayConvert = new Date(item.date)
+              .toISOString()
+              .slice(0, 10);
+
+            if (valueOfChosenDayConvert === valueOfChosenDayDate) {
+              return item;
+            }
+          });
+
+          if (existingDate) {
+            const groupCardProps = [
+              {
+                title: 'Turma 01',
+                description: '07:30h',
+                active: existingDate.totalOptionOne < 2 ? true : false,
+              },
+              {
+                title: 'Turma 02',
+                description: '10:30h',
+                active: existingDate.totalOptionTwo < 2 ? true : false,
+              },
+              {
+                title: 'Turma 03',
+                description: '13:00h',
+                active: existingDate.totalOptionThree < 2 ? true : false,
+              },
+            ];
+
+            setAvailableOptions(groupCardProps);
+          }
+        } else {
+          setAvailableOptions([]);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchTicketData();
+  }, [valueOfChosenDay, setValue]);
+
+  const dayCardProps = [
+    { title: 'Dia 01', description: '16/12/2024', active: true },
+    { title: 'Dia 02', description: '17/12/2024', active: true },
+    { title: 'Dia 03', description: '18/12/2024', active: true },
+    { title: 'Dia 04', description: '19/12/2024', active: true },
+    { title: 'Dia 05', description: '20/12/2024', active: true },
   ];
 
   const deleteFamilyMember = (rg: string) => {
@@ -75,16 +137,16 @@ export default function VisitorRegistrationForm() {
   };
 
   return (
-    <main className=' h-full bg-stone-200 p-4'>
+    <main className=' h-full bg-stone-200 p-4 rounded-none'>
       <form
         className='flex flex-col justify-between h-full px-6 py-6 bg-white rounded-md'
         onSubmit={handleSubmit(onSubmit)}
       >
-        <h1 className='font-bold mb-4 min-[380px]:text-lg  min-[380px]:mb-6'>
-          Cadastrar para o evento da família
-        </h1>
+        <div className='flex flex-col min-[380px]:gap-y-2 overflow-y-auto min-h-96'>
+          <h1 className='font-bold mb-4 min-[380px]:text-lg  min-[380px]:mb-6'>
+            Cadastrar para o evento da família
+          </h1>
 
-        <div className='flex flex-col  min-[380px]:gap-y-2'>
           <Input
             label='Nome do colaborador:'
             name='collaborator.name'
@@ -112,56 +174,69 @@ export default function VisitorRegistrationForm() {
             errorsMessage={errors.collaborator?.sector?.message}
           />
 
-          {/* <div className='relative'>
-            <AutocompleteInput />
-          </div> */}
+          <Input
+            label='Número de celular:'
+            name='collaborator.telephoneNumber'
+            type='text'
+            register={register}
+            defaultValue={defaultValues?.collaborator?.telephoneNumber}
+            errorsMessage={errors.collaborator?.telephoneNumber?.message}
+          />
 
           <ChosenGroups
             name='chosenDay'
             label='Selecione o dia:'
-            value={['2024-12-21', '2024-12-22', '2024-12-23']}
+            value={[
+              '2024-12-16',
+              '2024-12-17',
+              '2024-12-18',
+              '2024-12-19',
+              '2024-12-20',
+            ]}
             register={register}
             defaultValue={defaultValues?.chosenDay}
             cardProps={dayCardProps}
             errorMessage={errors.chosenDay?.message}
           />
 
-          <ChosenGroups
-            name='chosenGroup'
-            label='Selecione o dia:'
-            value={[1, 2, 3]}
-            register={register}
-            defaultValue={defaultValues?.chosenGroup}
-            cardProps={groupCardProps}
-            errorMessage={errors.chosenGroup?.message}
-          />
-        </div>
-
-        <div className='h-full'>
-          {valuesOfFamilyMembers && valuesOfFamilyMembers?.length > 0 && (
-            <>
-              <p className='text-sm font-semibold min-[380px]:text-base'>
-                Membros da família:
-              </p>
-              <ul className='grid grid-cols-2 gap-x-2 gap-y-2'>
-                {valuesOfFamilyMembers?.map((member, index) => (
-                  <li
-                    key={index}
-                    className='flex p-0.5 items-center justify-between border-2 border-dashed border-red-700 text-sm col-span-1 text-center font-bold text-red-700 min-[380px]:py-1.5  min-[380px]:text-base'
-                  >
-                    <span className='flex-1'>{member.name}</span>
-                    <button
-                      type='button'
-                      onClick={() => deleteFamilyMember(member.rg)}
-                    >
-                      <IoClose className='size-5' />
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            </>
+          {availableOptionsList.length > 0 ? (
+            <ChosenGroups
+              name='chosenGroup'
+              label='Selecione o dia:'
+              value={[1, 2, 3]}
+              register={register}
+              defaultValue={defaultValues?.chosenGroup}
+              cardProps={availableOptionsList}
+              errorMessage={errors.chosenGroup?.message}
+            />
+          ) : (
+            ''
           )}
         </div>
+
+        {valuesOfFamilyMembers && valuesOfFamilyMembers?.length > 0 && (
+          <div className='flex flex-col min-h-28'>
+            <p className='text-sm font-semibold min-[380px]:text-base'>
+              Membros da família:
+            </p>
+            <ul className='grid grid-cols-2 gap-x-2 gap-y-2'>
+              {valuesOfFamilyMembers?.map((member, index) => (
+                <li
+                  key={index}
+                  className='flex p-0.5 items-center justify-between border-2 border-dashed border-red-700 text-sm col-span-1 text-center font-bold text-red-700 min-[380px]:py-1.5  min-[380px]:text-base'
+                >
+                  <span className='flex-1'>{member.name}</span>
+                  <button
+                    type='button'
+                    onClick={() => deleteFamilyMember(member.rg)}
+                  >
+                    <IoClose className='size-5' />
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
 
         <div className='flex gap-x-4'>
           <Link
