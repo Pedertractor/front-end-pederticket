@@ -55,7 +55,7 @@ export default function ConfirmationTicket() {
 
         {ticket?.ticket && (
           <>
-            <section className='px-6 pt-8 pb-8 bg-white border-b-4 border-dashed corner-bottom'>
+            <section className='px-6 pt-8 pb-8 bg-white border-b-4 border-dashed corner-bottom h-full'>
               <div className='grid grid-cols-2 gap-y-4 text-sm min-[380px]:text-base min-[380px]:gap-y-6'>
                 <div className='col-span-2'>
                   <p className='font-semibold text-stone-600'>Descrição</p>
@@ -67,8 +67,14 @@ export default function ConfirmationTicket() {
                   </p>
                   <p>Industria Pedertractor</p>
                 </div>
+                <div className='col-span-2'>
+                  <p className='font-semibold text-stone-600'>
+                    Nome do colaborador
+                  </p>
+                  <p>{ticket.ticket.nome}</p>
+                </div>
                 <div className='col-span-1'>
-                  <p className='font-semibold text-stone-600'>Data</p>
+                  <p className='font-semibold text-stone-600'>Data escolhida</p>
                   <p>{ticket.ticket.data}</p>
                 </div>
                 <div className='col-span-1'>
@@ -97,7 +103,7 @@ export default function ConfirmationTicket() {
               </div>
             </section>
 
-            <section className='flex items-center justify-center h-full p-6 corner-top bg-white rounded-b-md'>
+            <section className='flex items-center justify-center h-full p-6 corner-top bg-white rounded-b-md max-h-32'>
               <div className='col-span-1 w-9/12 rounded-md'>
                 <p className='text-stone-600 text-center font-bold'>
                   Código do ticket

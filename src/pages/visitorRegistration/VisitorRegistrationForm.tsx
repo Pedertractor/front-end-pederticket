@@ -1,11 +1,16 @@
 import { useFormContext } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { IoClose } from 'react-icons/io5';
-import { getAvailableOptions, submitVisitorRegistration } from '../../api/api';
+import {
+  checkDuplicatedCardNumber,
+  getAvailableOptions,
+  submitVisitorRegistration,
+} from '../../api/api';
 import { VisitorRegistrationType } from '../../types/visitor-registration';
 import { Input } from '../../components/ui/Input';
 import { ChosenGroups } from '../../components/visitorRegistration/ChosenGroups';
 import { useEffect, useState } from 'react';
+import { InputWithMask } from '../../components/ui/InputWithMask';
 // import AutocompleteInput from '../../components/ui/AutoCompleteInput';
 
 type groupCardProps = { title: string; description: string; active: boolean };
@@ -21,6 +26,8 @@ export default function VisitorRegistrationForm() {
     register,
     handleSubmit,
     formState: { errors, defaultValues, isSubmitting },
+    getValues,
+    setError,
     setValue,
     watch,
     reset,
@@ -107,16 +114,26 @@ export default function VisitorRegistrationForm() {
   };
 
   const validateSubmit = async () => {
+    const cardNumber = getValues('collaborator.cardNumber');
     const isValid = await trigger();
 
     if (!isValid) {
       return;
     }
 
-    if (valuesOfFamilyMembers.length > 0) {
-      handleSubmit(onSubmit)();
+    const isDuplicated = await checkDuplicatedCardNumber(parseInt(cardNumber));
+
+    if (isDuplicated.existing === true) {
+      setError('collaborator.cardNumber', {
+        type: 'manual',
+        message: 'O cartão já está registrado!',
+      });
     } else {
-      setShowPopup(true);
+      if (valuesOfFamilyMembers.length > 0) {
+        handleSubmit(onSubmit)();
+      } else {
+        setShowPopup(true);
+      }
     }
   };
 
@@ -124,11 +141,11 @@ export default function VisitorRegistrationForm() {
     try {
       const result = await submitVisitorRegistration(data);
 
-      if (result?.status == 201) {
-        navigate(`/cadastrar/confirmacao`);
+      if (result > 0) {
+        navigate(`/ingresso/${result}`);
 
         reset();
-      } else if (result?.status == 409) {
+      } else {
         setShowPopup(false);
       }
     } catch (error) {
@@ -174,7 +191,16 @@ export default function VisitorRegistrationForm() {
             errorsMessage={errors.collaborator?.sector?.message}
           />
 
-          <Input
+          {/* <Input
+            label='Número de celular:'
+            name='collaborator.telephoneNumber'
+            type='text'
+            register={register}
+            defaultValue={defaultValues?.collaborator?.telephoneNumber}
+            errorsMessage={errors.collaborator?.telephoneNumber?.message}
+          /> */}
+
+          <InputWithMask
             label='Número de celular:'
             name='collaborator.telephoneNumber'
             type='text'
@@ -265,10 +291,7 @@ export default function VisitorRegistrationForm() {
           </button>
         </div>
         {showPopup && (
-          <div
-            className='fixed bottom-0 right-0 left-0 top-0 justify-center items-center backdrop-blur-md'
-            // onClick={() => setShowPopup(false)}
-          >
+          <div className='fixed bottom-0 right-0 left-0 top-0 justify-center items-center backdrop-blur-md'>
             <div className='flex h-screen justify-center items-center'>
               <div className='bg-stone-200 p-8 w-10/12 border-2 rounded-md'>
                 <p>

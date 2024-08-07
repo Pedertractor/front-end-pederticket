@@ -37,5 +37,6 @@ export interface TicketDataType {
     horario: string;
     quantidadeFamiliares: number;
     numeroCartao: number;
+    nome: string;
   };
 }
