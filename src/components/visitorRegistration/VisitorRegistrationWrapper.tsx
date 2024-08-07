@@ -16,6 +16,7 @@ export function VisitorRegistrationWrapper() {
         name: '',
         cardNumber: undefined,
         sector: '',
+        telephoneNumber: '',
         familyMembers: [],
       },
     },
