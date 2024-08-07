@@ -18,7 +18,7 @@ export function InputWithMask<TFormValues extends FieldValues>({
   defaultValue,
 }: InputFieldProps<TFormValues>) {
   return (
-    <div>
+    <div className='flex flex-col gap-2 mt-2'>
       <label className='text-sm font-semibold min-[380px]:text-base'>
         {label}
         <InputMask

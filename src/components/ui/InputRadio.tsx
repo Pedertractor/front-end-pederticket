@@ -18,7 +18,13 @@ export function InputRadio<TFormValues extends FieldValues>({
   active,
 }: InputFieldProps<TFormValues>) {
   return (
-    <div className='flex flex-grow justify-center'>
+    <div
+      className={`${
+        name === 'collaborator.industry'
+          ? 'flex flex-col w-full '
+          : 'flex flex-grow justify-center'
+      } `}
+    >
       <label className='sm:min-w-40'>
         <input
           {...register(name)}

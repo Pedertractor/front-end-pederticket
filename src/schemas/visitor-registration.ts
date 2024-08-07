@@ -28,6 +28,7 @@ export const CollaboratorSchema = z.object({
     .number()
     .min(1, 'Cartão é obrigatório!')
     .max(999999, 'Digite um cartão válido!'),
+  industry: z.string().min(1, 'Selecione a empresa!'),
   sector: z.string().min(1, 'Setor é obrigatório!'),
   telephoneNumber: z.string().min(1, 'Telefone é obrigatório!'),
   familyMembers: z.array(FamilyMemberSchema).optional(),
@@ -38,7 +39,7 @@ export const VisitorRegistrationSchema = z.object({
     .string()
     .min(1, 'Selecionar dia é obrigatório!')
     .transform((val) => {
-      const date = new Date(val);
+      const date = new Date(`${val}T12:00:00Z`);
 
       return date;
     }),

@@ -33,6 +33,7 @@ export default function VisitorRegistrationForm() {
     reset,
     trigger,
   } = useFormContext<VisitorRegistrationType>();
+
   const [showPopup, setShowPopup] = useState(false);
   const [availableOptionsList, setAvailableOptions] = useState<
     groupCardProps[]
@@ -97,6 +98,11 @@ export default function VisitorRegistrationForm() {
     fetchTicketData();
   }, [valueOfChosenDay, setValue]);
 
+  const industry = [
+    { description: 'pedertractor', active: true },
+    { description: 'tractor', active: true },
+  ];
+
   const dayCardProps = [
     { title: 'Dia 01', description: '16/12/2024', active: true },
     { title: 'Dia 02', description: '17/12/2024', active: true },
@@ -138,6 +144,7 @@ export default function VisitorRegistrationForm() {
   };
 
   const onSubmit = async (data: VisitorRegistrationType) => {
+    console.log(data);
     try {
       const result = await submitVisitorRegistration(data);
 
@@ -182,6 +189,16 @@ export default function VisitorRegistrationForm() {
             errorsMessage={errors.collaborator?.cardNumber?.message}
           />
 
+          <ChosenGroups
+            name='collaborator.industry'
+            label='Selecione a empresa:'
+            value={['pedertractor', 'tractor']}
+            register={register}
+            defaultValue={defaultValues?.collaborator?.industry}
+            cardProps={industry}
+            errorMessage={errors.collaborator?.industry?.message}
+          />
+
           <Input
             label='Setor:'
             name='collaborator.sector'
@@ -190,15 +207,6 @@ export default function VisitorRegistrationForm() {
             defaultValue={defaultValues?.collaborator?.sector}
             errorsMessage={errors.collaborator?.sector?.message}
           />
-
-          {/* <Input
-            label='Número de celular:'
-            name='collaborator.telephoneNumber'
-            type='text'
-            register={register}
-            defaultValue={defaultValues?.collaborator?.telephoneNumber}
-            errorsMessage={errors.collaborator?.telephoneNumber?.message}
-          /> */}
 
           <InputWithMask
             label='Número de celular:'
@@ -228,7 +236,7 @@ export default function VisitorRegistrationForm() {
           {availableOptionsList.length > 0 ? (
             <ChosenGroups
               name='chosenGroup'
-              label='Selecione o dia:'
+              label='Selecione a turma:'
               value={[1, 2, 3]}
               register={register}
               defaultValue={defaultValues?.chosenGroup}

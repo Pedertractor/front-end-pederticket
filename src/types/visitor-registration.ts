@@ -18,6 +18,7 @@ export interface FamilyMemberType {
 export interface CollaboratorType {
   name: string;
   cardNumber: string;
+  industry: string;
   sector: string;
   familyMembers: FamilyMemberType[];
   telephoneNumber: string;

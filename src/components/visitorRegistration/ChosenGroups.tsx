@@ -3,7 +3,7 @@ import { InputRadio } from '../ui/InputRadio';
 import ChosenOptionsCard from './ChosenOptionsCard';
 
 type cardProps = {
-  title: string;
+  title?: string;
   description: string;
   active: boolean;
 };
@@ -28,10 +28,16 @@ export function ChosenGroups<TFormValues extends FieldValues>({
   cardProps,
 }: InputFieldProps<TFormValues>) {
   return (
-    <div>
+    <div className=' flex flex-col gap-2 mt-2'>
       <p className='text-sm font-semibold min-[380px]:text-base'>{label}</p>
 
-      <div className='flex flex-wrap gap-y-2 gap-x-2 leading-none'>
+      <div
+        className={`${
+          name === 'collaborator.industry'
+            ? ' flex items-start'
+            : ' flex flex-wrap  gap-y-2 gap-x-2 leading-none'
+        }`}
+      >
         {cardProps &&
           value.map((value, index) => (
             <InputRadio
@@ -53,7 +59,7 @@ export function ChosenGroups<TFormValues extends FieldValues>({
       </div>
       <div className='flex min-h-4'>
         {errorMessage && (
-          <span className='text-xs text-red-600'>{errorMessage}</span>
+          <span className='text-xs text-red-600 my-2'>{errorMessage}</span>
         )}
       </div>
     </div>
