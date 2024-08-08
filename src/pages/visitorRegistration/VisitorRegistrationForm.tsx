@@ -130,15 +130,20 @@ export default function VisitorRegistrationForm() {
 
   const validateSubmit = async () => {
     const cardNumber = getValues('collaborator.cardNumber');
+    const industry = getValues('collaborator.industry');
+
     const isValid = await trigger();
 
     if (!isValid) {
       return;
     }
 
-    const isDuplicated = await checkDuplicatedCardNumber(parseInt(cardNumber));
+    const isDuplicated = await checkDuplicatedCardNumber(
+      parseInt(cardNumber),
+      industry
+    );
 
-    if (isDuplicated.existing === true) {
+    if (isDuplicated !== undefined && isDuplicated.existing === true) {
       setError('collaborator.cardNumber', {
         type: 'manual',
         message: 'O cartão já está registrado!',
