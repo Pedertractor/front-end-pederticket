@@ -18,8 +18,8 @@ export function Input<TFormValues extends FieldValues>({
   defaultValue,
 }: InputFieldProps<TFormValues>) {
   return (
-    <div>
-      <label className='text-sm font-semibold min-[380px]:text-base'>
+    <div className=' text-sm flex flex-col gap-2 mt-2'>
+      <label className='flextext-sm font-semibold min-[380px]:text-base'>
         {label}
         <input
           {...register(name)}

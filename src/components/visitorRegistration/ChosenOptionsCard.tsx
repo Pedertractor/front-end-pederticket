@@ -1,5 +1,5 @@
 type choseOptionsCard = {
-  title: string;
+  title?: string;
   description: string;
   active: boolean;
 };
@@ -20,7 +20,7 @@ export default function ChosenOptionsCard({
           !active ? 'text-stone-300 pointer-events-none line-through' : ''
         }`}
       >
-        {title}
+        {title ? title : null}
       </span>
       <span
         className={`text-xs min-[380px]:text-sm ${

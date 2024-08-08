@@ -33,6 +33,7 @@ export default function VisitorRegistrationForm() {
     trigger,
     control,
   } = useFormContext<VisitorRegistrationType>();
+
   const [showPopup, setShowPopup] = useState(false);
   const [availableOptionsList, setAvailableOptions] = useState<
     groupCardProps[]
@@ -106,6 +107,11 @@ export default function VisitorRegistrationForm() {
     fetchTicketData();
   }, [valueOfChosenDay, setValue]);
 
+  const industry = [
+    { description: 'pedertractor', active: true },
+    { description: 'tractor', active: true },
+  ];
+
   const dayCardProps = [
     { title: 'Dia 01', description: '16/12/2024', active: true },
     { title: 'Dia 02', description: '17/12/2024', active: true },
@@ -147,6 +153,7 @@ export default function VisitorRegistrationForm() {
   };
 
   const onSubmit = async (data: VisitorRegistrationType) => {
+    console.log(data);
     try {
       const result = await submitVisitorRegistration(data);
 
@@ -170,7 +177,7 @@ export default function VisitorRegistrationForm() {
       >
         <div className='flex flex-col min-[380px]:gap-y-2'>
           <h1 className='font-bold mb-4 min-[380px]:text-lg  min-[380px]:mb-6'>
-            Cadastrar para o evento da família
+            Área de cadastro
           </h1>
 
           <Input
@@ -189,6 +196,16 @@ export default function VisitorRegistrationForm() {
             register={register}
             defaultValue={defaultValues?.collaborator?.cardNumber}
             errorsMessage={errors.collaborator?.cardNumber?.message}
+          />
+
+          <ChosenGroups
+            name='collaborator.industry'
+            label='Selecione a empresa:'
+            value={['pedertractor', 'tractor']}
+            register={register}
+            defaultValue={defaultValues?.collaborator?.industry}
+            cardProps={industry}
+            errorMessage={errors.collaborator?.industry?.message}
           />
 
           <Input

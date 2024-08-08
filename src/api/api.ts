@@ -14,7 +14,7 @@ export async function submitVisitorRegistration(
       },
       body: JSON.stringify(FormData),
     });
-    const data = response.json();
+    const data = await response.json();
 
     return data;
   } catch (error) {
@@ -45,16 +45,12 @@ export async function getTicket(publicTicketId: string) {
 
 export async function getAvailableOptions(): Promise<availableOptionsQuery[]> {
   try {
-    const response = await fetch(
-      // `${import.meta.env.API_URL}/ticket/${publicTicketId}`,
-      `${url}/ticket/available-options`,
-      {
-        method: 'GET',
-        headers: {
-          'Content-type': 'application/json',
-        },
-      }
-    );
+    const response = await fetch(`${url}/ticket/available-options`, {
+      method: 'GET',
+      headers: {
+        'Content-type': 'application/json',
+      },
+    });
     const data = await response.json();
     return data ? data : [];
   } catch (error) {

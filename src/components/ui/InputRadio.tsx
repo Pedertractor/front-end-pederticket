@@ -26,19 +26,25 @@ export function InputRadio<TFormValues extends FieldValues>({
   control,
 }: InputFieldProps<TFormValues>) {
   return (
-    <div className='flex flex-grow justify-center'>
+    <div
+      className={`${
+        name === 'collaborator.industry'
+          ? 'flex flex-col w-full '
+          : 'flex flex-grow justify-center'
+      } `}
+    >
       <Controller
         control={control}
         name={name}
         render={({ field }) => (
           <label className='sm:min-w-40'>
             <input
+              {...register(name)}
               className='hidden peer'
               type='radio'
-              {...register(name)}
               value={value}
               disabled={!active}
-              checked={field.value == value && active}
+              defaultChecked={field.value === value && active}
             />
             {content}
           </label>

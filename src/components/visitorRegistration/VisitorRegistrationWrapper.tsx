@@ -15,6 +15,7 @@ export function VisitorRegistrationWrapper() {
       collaborator: {
         name: '',
         cardNumber: undefined,
+        industry: '',
         sector: '',
         telephoneNumber: '',
         familyMembers: [],
