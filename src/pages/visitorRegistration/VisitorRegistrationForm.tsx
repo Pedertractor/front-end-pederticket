@@ -199,6 +199,7 @@ export default function VisitorRegistrationForm() {
           />
 
           <ChosenGroups
+            control={control}
             name='collaborator.industry'
             label='Selecione a empresa:'
             value={['pedertractor', 'tractor']}
