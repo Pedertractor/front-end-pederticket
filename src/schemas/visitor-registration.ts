@@ -13,10 +13,8 @@ export const FamilyMemberSchema = z.object({
     .max(new Date(), { message: 'A data não pode estar no futuro' }),
   degreeOfKinship: z.enum([
     'children',
+    'husband',
     'parents',
-    'grandparents',
-    'grandchildren',
-    'great-grandchildren',
     'uncles',
     'brothers',
   ]),
@@ -38,7 +36,7 @@ export const VisitorRegistrationSchema = z.object({
     .string()
     .min(1, 'Selecionar dia é obrigatório!')
     .transform((val) => {
-      const date = new Date(val);
+      const date = new Date(`${val}T12:00:00Z`);
 
       return date;
     }),

@@ -22,11 +22,11 @@ export default function Informations() {
           </h2>
           <span className='flex items-center gap-x-2 h-8 text-sm min-[380px]:text-base'>
             <CiCalendar className='size-6' />
-            20/12/2024 - 21/12/2024 - 22/12/2024
+            Entre os dias 16 e 20 de Dezembro.
           </span>
           <span className='flex items-center gap-x-2 h-8 text-sm min-[380px]:text-base'>
             <CiAlarmOn className='size-6' />
-            08:00h - 10:30h - 13:30h
+            07:30h - 10:30h - 13:00h
           </span>
         </section>
 

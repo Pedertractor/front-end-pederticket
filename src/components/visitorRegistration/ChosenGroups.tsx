@@ -1,4 +1,10 @@
-import { UseFormRegister, Path, PathValue, FieldValues } from 'react-hook-form';
+import {
+  UseFormRegister,
+  Path,
+  PathValue,
+  FieldValues,
+  Control,
+} from 'react-hook-form';
 import { InputRadio } from '../ui/InputRadio';
 import ChosenOptionsCard from './ChosenOptionsCard';
 
@@ -16,6 +22,7 @@ interface InputFieldProps<TFormValues extends FieldValues> {
   defaultValue?: PathValue<TFormValues, Path<TFormValues>>;
   errorMessage: string | undefined;
   cardProps: cardProps[];
+  control: Control<TFormValues>;
 }
 
 export function ChosenGroups<TFormValues extends FieldValues>({
@@ -26,6 +33,7 @@ export function ChosenGroups<TFormValues extends FieldValues>({
   defaultValue,
   errorMessage,
   cardProps,
+  control,
 }: InputFieldProps<TFormValues>) {
   return (
     <div>
@@ -39,6 +47,7 @@ export function ChosenGroups<TFormValues extends FieldValues>({
               name={name}
               value={value}
               register={register}
+              control={control}
               defaultValue={defaultValue}
               active={cardProps[index].active}
               content={

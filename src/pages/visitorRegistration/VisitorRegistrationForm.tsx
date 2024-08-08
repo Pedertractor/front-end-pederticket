@@ -11,7 +11,6 @@ import { Input } from '../../components/ui/Input';
 import { ChosenGroups } from '../../components/visitorRegistration/ChosenGroups';
 import { useEffect, useState } from 'react';
 import { InputWithMask } from '../../components/ui/InputWithMask';
-// import AutocompleteInput from '../../components/ui/AutoCompleteInput';
 
 type groupCardProps = { title: string; description: string; active: boolean };
 export type availableOptionsQuery = {
@@ -32,6 +31,7 @@ export default function VisitorRegistrationForm() {
     watch,
     reset,
     trigger,
+    control,
   } = useFormContext<VisitorRegistrationType>();
   const [showPopup, setShowPopup] = useState(false);
   const [availableOptionsList, setAvailableOptions] = useState<
@@ -43,8 +43,6 @@ export default function VisitorRegistrationForm() {
   const valueOfChosenDay = watch('chosenDay');
 
   useEffect(() => {
-    setValue('chosenGroup', 0);
-
     const fetchTicketData = async () => {
       try {
         const availableOptions: availableOptionsQuery[] =
@@ -71,18 +69,29 @@ export default function VisitorRegistrationForm() {
                 title: 'Turma 01',
                 description: '07:30h',
                 active: existingDate.totalOptionOne < 2 ? true : false,
+                value: 1,
               },
               {
                 title: 'Turma 02',
                 description: '10:30h',
                 active: existingDate.totalOptionTwo < 2 ? true : false,
+                value: 2,
               },
               {
                 title: 'Turma 03',
                 description: '13:00h',
                 active: existingDate.totalOptionThree < 2 ? true : false,
+                value: 3,
               },
             ];
+
+            const disableOptions = groupCardProps.find(
+              (item) => item.active === false
+            );
+
+            if (disableOptions) {
+              setValue('chosenGroup', 0);
+            }
 
             setAvailableOptions(groupCardProps);
           }
@@ -156,10 +165,10 @@ export default function VisitorRegistrationForm() {
   return (
     <main className=' h-full bg-stone-200 p-4 rounded-none'>
       <form
-        className='flex flex-col justify-between h-full px-6 py-6 bg-white rounded-md'
+        className='flex flex-col justify-between h-full px-6 py-6 bg-white rounded-md overflow-y-auto min-h-96'
         onSubmit={handleSubmit(onSubmit)}
       >
-        <div className='flex flex-col min-[380px]:gap-y-2 overflow-y-auto min-h-96'>
+        <div className='flex flex-col min-[380px]:gap-y-2'>
           <h1 className='font-bold mb-4 min-[380px]:text-lg  min-[380px]:mb-6'>
             Cadastrar para o evento da família
           </h1>
@@ -191,15 +200,6 @@ export default function VisitorRegistrationForm() {
             errorsMessage={errors.collaborator?.sector?.message}
           />
 
-          {/* <Input
-            label='Número de celular:'
-            name='collaborator.telephoneNumber'
-            type='text'
-            register={register}
-            defaultValue={defaultValues?.collaborator?.telephoneNumber}
-            errorsMessage={errors.collaborator?.telephoneNumber?.message}
-          /> */}
-
           <InputWithMask
             label='Número de celular:'
             name='collaborator.telephoneNumber'
@@ -220,6 +220,7 @@ export default function VisitorRegistrationForm() {
               '2024-12-20',
             ]}
             register={register}
+            control={control}
             defaultValue={defaultValues?.chosenDay}
             cardProps={dayCardProps}
             errorMessage={errors.chosenDay?.message}
@@ -228,9 +229,10 @@ export default function VisitorRegistrationForm() {
           {availableOptionsList.length > 0 ? (
             <ChosenGroups
               name='chosenGroup'
-              label='Selecione o dia:'
+              label='Selecione a turma:'
               value={[1, 2, 3]}
               register={register}
+              control={control}
               defaultValue={defaultValues?.chosenGroup}
               cardProps={availableOptionsList}
               errorMessage={errors.chosenGroup?.message}
@@ -251,7 +253,11 @@ export default function VisitorRegistrationForm() {
                   key={index}
                   className='flex p-0.5 items-center justify-between border-2 border-dashed border-red-700 text-sm col-span-1 text-center font-bold text-red-700 min-[380px]:py-1.5  min-[380px]:text-base'
                 >
-                  <span className='flex-1'>{member.name}</span>
+                  <span className='flex-1'>{`${member.name.split(' ')[0]} ${
+                    member.name.split(' ')[1] !== undefined
+                      ? member.name.split(' ')[1]
+                      : ''
+                  }`}</span>
                   <button
                     type='button'
                     onClick={() => deleteFamilyMember(member.rg)}
@@ -266,11 +272,7 @@ export default function VisitorRegistrationForm() {
 
         <div className='flex gap-x-4'>
           <Link
-            to={
-              valuesOfFamilyMembers && valuesOfFamilyMembers.length < 3
-                ? '/cadastrar/adicionar-familia'
-                : '#'
-            }
+            to={'/cadastrar/adicionar-familia'}
             className='flex-1 py-2.5 bg-stone-500 rounded-md font-semibold text-white text-center min-[380px]:text-lg min-[380px]:py-4'
             type='button'
           >

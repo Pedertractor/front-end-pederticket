@@ -1,4 +1,11 @@
-import { UseFormRegister, Path, PathValue, FieldValues } from 'react-hook-form';
+import {
+  UseFormRegister,
+  Path,
+  PathValue,
+  FieldValues,
+  Controller,
+  Control,
+} from 'react-hook-form';
 
 interface InputFieldProps<TFormValues extends FieldValues> {
   name: Path<TFormValues>;
@@ -7,29 +14,36 @@ interface InputFieldProps<TFormValues extends FieldValues> {
   defaultValue?: PathValue<TFormValues, Path<TFormValues>>;
   content: React.ReactNode;
   active: boolean;
+  control: Control<TFormValues>;
 }
 
 export function InputRadio<TFormValues extends FieldValues>({
   name,
   value,
   register,
-  defaultValue,
   content,
   active,
+  control,
 }: InputFieldProps<TFormValues>) {
   return (
     <div className='flex flex-grow justify-center'>
-      <label className='sm:min-w-40'>
-        <input
-          {...register(name)}
-          className='hidden peer'
-          type='radio'
-          value={value}
-          disabled={!active}
-          defaultChecked={value === defaultValue}
-        />
-        {content}
-      </label>
+      <Controller
+        control={control}
+        name={name}
+        render={({ field }) => (
+          <label className='sm:min-w-40'>
+            <input
+              className='hidden peer'
+              type='radio'
+              {...register(name)}
+              value={value}
+              disabled={!active}
+              checked={field.value == value && active}
+            />
+            {content}
+          </label>
+        )}
+      />
     </div>
   );
 }

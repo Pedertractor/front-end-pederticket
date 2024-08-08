@@ -1,9 +1,7 @@
 export const DEGREE_OF_KINSHIP = [
   { name: 'Filho/Filha', value: 'children' },
+  { name: 'Marido/Esposa', value: 'husband' },
   { name: 'Pai/Mãe', value: 'parents' },
-  { name: 'Avô/Avó', value: 'grandparents' },
-  { name: 'Neto/Neta', value: 'grandchildren' },
-  { name: 'Bisneto/Bisneta', value: 'great-grandchildren' },
   { name: 'Tio/Tia', value: 'uncles' },
   { name: 'Irmão/Irmã', value: 'brothers' },
 ];
