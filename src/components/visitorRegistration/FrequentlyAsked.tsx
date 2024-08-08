@@ -17,7 +17,7 @@ export function FrequentlyAsked() {
   }, []);
 
   return (
-    <section className='flex-1'>
+    <section className='flex-1 mb-5'>
       <h2 className='font-bold mb-2 min-[380px]:text-lg'>Dúvidas frequentes</h2>
 
       <div className='divide-y'>

@@ -168,7 +168,7 @@ export default function VisitorRegistrationForm() {
       >
         <div className='flex flex-col min-[380px]:gap-y-2 overflow-y-auto min-h-96'>
           <h1 className='font-bold mb-4 min-[380px]:text-lg  min-[380px]:mb-6'>
-            Cadastrar para o evento da família
+            Área de cadastro
           </h1>
 
           <Input
