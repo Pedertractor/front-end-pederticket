@@ -11,13 +11,7 @@ export const FamilyMemberSchema = z.object({
       }),
     })
     .max(new Date(), { message: 'A data não pode estar no futuro' }),
-  degreeOfKinship: z.enum([
-    'children',
-    'husband',
-    'parents',
-    'uncles',
-    'brothers',
-  ]),
+  degreeOfKinship: z.enum(['children', 'husband', 'parents', 'brothers']),
 });
 
 export const CollaboratorSchema = z.object({
@@ -25,7 +19,7 @@ export const CollaboratorSchema = z.object({
   cardNumber: z.coerce
     .number()
     .min(1, 'Cartão é obrigatório!')
-    .max(999999, 'Digite um cartão válido!'),
+    .max(9999, 'Cartão com no máximo 4 digitos!'),
   industry: z.string().min(1, 'Selecione a empresa!'),
   sector: z.string().min(1, 'Setor é obrigatório!'),
   telephoneNumber: z.string().min(1, 'Telefone é obrigatório!'),

@@ -11,10 +11,10 @@ export function VisitorRegistrationWrapper() {
     resolver: zodResolver(VisitorRegistrationSchema),
     defaultValues: {
       chosenDay: '',
-      chosenGroup: undefined,
+      chosenGroup: 0,
       collaborator: {
         name: '',
-        cardNumber: undefined,
+        cardNumber: '',
         industry: '',
         sector: '',
         telephoneNumber: '',
