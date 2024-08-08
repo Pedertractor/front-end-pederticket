@@ -24,10 +24,10 @@ export default function ConfirmationTicket() {
   }, [publicTicketId]);
 
   return (
-    <main className='h-full bg-stone-200 p-4'>
-      <div className='flex flex-col h-full'>
+    <main className=' h-full bg-stone-600 p-4'>
+      <div className='flex flex-col'>
         <section className='bg-white rounded-t-md px-4'>
-          <div className='flex justify-between py-6 px-2 bg-white'>
+          <div className=' items-center flex justify-between py-6'>
             <img
               src='https://cdn-icons-png.flaticon.com/512/2278/2278992.png'
               alt=''
@@ -44,50 +44,47 @@ export default function ConfirmationTicket() {
           </div>
           <div className='pb-6 px-2 bg-white'>
             <h1 className='font-bold min-[380px]:text-lg'>
-              2ª Semana da Família
+              2ª Semana da Família 2024
             </h1>
-            <p className='text-sm text-stone-600 min-[380px]:text-base'>
-              mostre esse ticket na entrada do evento
-            </p>
           </div>
           <hr className='h-0.5 bg-stone-200' />
         </section>
 
         {ticket?.ticket && (
           <>
-            <section className='px-6 pt-8 pb-8 bg-white border-b-4 border-dashed corner-bottom h-full'>
+            <section className='px-6 py-4 pb-6 bg-white border-b-4 border-dashed corner-bottom'>
               <div className='grid grid-cols-2 gap-y-4 text-sm min-[380px]:text-base min-[380px]:gap-y-6'>
                 <div className='col-span-2'>
-                  <p className='font-semibold text-stone-600'>Descrição</p>
-                  <p>2ª Semana da família do grupo Pedertractor</p>
+                  <p className='font-semibold text-stone-700'>Descrição</p>
+                  <p className=' text-[13px]'>
+                    2ª Semana da família - Pedertractor
+                  </p>
                 </div>
                 <div className='col-span-2'>
-                  <p className='font-semibold text-stone-600'>
+                  <p className='font-semibold text-stone-700'>
                     Local do evento
                   </p>
-                  <p>Industria Pedertractor</p>
+                  <p className=' text-[13px]'>Industria Pedertractor</p>
                 </div>
                 <div className='col-span-2'>
-                  <p className='font-semibold text-stone-600'>
+                  <p className='font-semibold text-stone-700'>
                     Nome do colaborador
                   </p>
-                  <p>{ticket.ticket.nome}</p>
+                  <p className=' text-[13px]'>{ticket.ticket.nome}</p>
                 </div>
                 <div className='col-span-1'>
-                  <p className='font-semibold text-stone-600'>Data escolhida</p>
-                  <p>{ticket.ticket.data}</p>
+                  <p className='font-semibold text-stone-700'>Data escolhida</p>
+                  <p className=' text-[13px]'>{ticket.ticket.data}</p>
                 </div>
                 <div className='col-span-1'>
-                  <p className='font-semibold text-stone-600'>Horário</p>
-                  <p>{ticket.ticket.horario}</p>
+                  <p className='font-semibold text-stone-700'>Horário</p>
+                  <p className=' text-[13px]'>{ticket.ticket.horario}</p>
                 </div>
                 <div className='col-span-1'>
-                  <p className='font-semibold text-stone-600'>
-                    Quant. familiares
-                  </p>
+                  <p className='font-semibold text-stone-700'>familiares</p>
 
                   {ticket.ticket.quantidadeFamiliares == 0 ? (
-                    <p>Sem familiares</p>
+                    <p className=' text-[13px]'> - </p>
                   ) : (
                     <p>
                       {`0${ticket.ticket.quantidadeFamiliares} familiar${
@@ -98,18 +95,18 @@ export default function ConfirmationTicket() {
                 </div>
                 <div className='col-span-1'>
                   <p className='font-semibold text-stone-600'>Cartão</p>
-                  <p>{ticket.ticket.numeroCartao}</p>
+                  <p className=' text-[13px]'>{ticket.ticket.numeroCartao}</p>
                 </div>
               </div>
             </section>
 
-            <section className='flex items-center justify-center h-full p-6 corner-top bg-white rounded-b-md max-h-32'>
-              <div className='col-span-1 w-9/12 rounded-md'>
+            <section className='flex items-center justify-center corner-top py-4 bg-white rounded-b-md'>
+              <div className=' w-full  flex flex-col items-center justify-center col-span-1 rounded-md'>
                 <p className='text-stone-600 text-center font-bold'>
                   Código do ticket
                 </p>
                 <p className='text-center text-xl font-bold'>
-                  {ticket.ticket.codigoTicket}
+                  {ticket.ticket.codigoTicket.toString().padStart(6, '0')}
                 </p>
               </div>
             </section>

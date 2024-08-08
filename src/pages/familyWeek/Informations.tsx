@@ -17,22 +17,33 @@ export default function Informations() {
           </p>
         </section>
 
-        <section className='my-6'>
-          <h2 className='font-bold mb-2 min-[380px]:text-lg'>Informativos</h2>
-          <p className='flex items-center gap-x-2 h-8 text-sm min-[380px]:text-base'>
+        <section className='mt-6 flex flex-col gap-1'>
+          <h2 className=' mb-2 font-bold min-[380px]:text-lg'>Informativos</h2>
+          <p className='flex items-center gap-2 h-8 text-sm min-[380px]:text-base'>
             <CiCalendar size={24} />
             <span>16, 17, 18, 19 e 20 de Dezembro de 2024</span>
           </p>
-          <p className='flex items-center mt-2 gap-x-2 h-8 text-sm min-[380px]:text-base'>
+          <p className='flex items-center gap-2 h-8 text-sm min-[380px]:text-base'>
             <CiAlarmOn size={22} />
             07:30h - 10:30h - 13:00h
           </p>
-          <p className='flex items-center mt-2 gap-x-2 h-8 text-sm min-[380px]:text-base'>
+          <p className='flex items-center gap-2 h-8 text-sm min-[380px]:text-base'>
             <CiLocationOn size={22} />
             Pedertractor, Pederneiras-SP
           </p>
         </section>
-        <CiLocationOn />
+
+        <section className='my-6'>
+          <h2 className='font-bold mb-2 min-[380px]:text-lg'>
+            Orientações para o evento
+          </h2>
+          <ul className=' list-disc text-sm pl-5 mb-2 flex flex-col gap-1'>
+            <li>vestimentas adequadas</li>
+            <li>uso de calçados fechados</li>
+            <li>entrada e saida pelo estacionamento</li>
+            <li>proibido a entrada e uso do celular dentro da empresa</li>
+          </ul>
+        </section>
 
         <FrequentlyAsked />
 

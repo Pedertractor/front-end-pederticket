@@ -1,9 +1,8 @@
 export const DEGREE_OF_KINSHIP = [
+  { name: 'Pai/Mãe', value: 'parents' },
   { name: 'Filho/Filha', value: 'children' },
   { name: 'Marido/Esposa', value: 'husband' },
-  { name: 'Pai/Mãe', value: 'parents' },
-  { name: 'Tio/Tia', value: 'uncles' },
-  { name: 'Irmão/Irmã', value: 'brothers' },
+  { name: 'Nomorado/Namorada', value: 'lover' },
 ];
 
 export const SECTOR_LIST = [

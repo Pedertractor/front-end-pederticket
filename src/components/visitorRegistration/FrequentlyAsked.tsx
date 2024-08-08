@@ -39,7 +39,7 @@ export function FrequentlyAsked() {
         </details>
         <details className='py-2 min-[380px]:py-3'>
           <summary className='flex justify-between items-center text-sm min-[380px]:text-base font-medium'>
-            Quem pode participar <FaAngleDown />
+            Quem pode participar? <FaAngleDown />
           </summary>
           <div className=' gap-2 flex flex-col text-sm min-[380px]:text-base mt-1.5 min-[380px]:mt-2.5 text-stone-600'>
             <p>
@@ -65,7 +65,7 @@ export function FrequentlyAsked() {
         </details>
         <details className='py-2 min-[380px]:py-3'>
           <summary className='flex justify-between items-center text-sm min-[380px]:text-base font-medium'>
-            E se eu tiver uma outra dúvida? <FaAngleDown />
+            outra duvida? <FaAngleDown />
           </summary>
           <p className=' flex flex-col gap-2 text-sm min-[380px]:text-base mt-1.5 min-[380px]:mt-2.5 text-stone-600'>
             Caso você tiver outra duvida, entre em contato através dos numeros:
