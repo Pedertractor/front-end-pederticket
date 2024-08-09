@@ -54,3 +54,10 @@ export type availableOptionsQueryType = {
   totalOptionTwo: number;
   totalOptionThree: number;
 };
+
+export type Register = {
+  ticketId: number;
+  collaboratorName: string;
+  cardNumber: string;
+  qtdFamilyMembers: number;
+};
