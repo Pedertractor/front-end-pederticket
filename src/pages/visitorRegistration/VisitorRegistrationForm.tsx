@@ -11,7 +11,7 @@ import {
   groupCardType,
   VisitorRegistrationType,
 } from '../../types/visitor-registration';
-import { Input } from '../../components/ui/Input';
+import { InputRHF } from '../../components/ui/InputRHF';
 import { ChosenGroups } from '../../components/visitorRegistration/ChosenGroups';
 import { useEffect, useState } from 'react';
 import { InputWithMask } from '../../components/ui/InputWithMask';
@@ -179,7 +179,7 @@ export default function VisitorRegistrationForm() {
           <h1 className='font-bold mb-4 min-[380px]:text-lg  min-[380px]:mb-6'>
             Área de cadastro
           </h1>
-          <Input
+          <InputRHF
             label='Nome do colaborador:'
             name='collaborator.name'
             type='text'
@@ -187,7 +187,7 @@ export default function VisitorRegistrationForm() {
             defaultValue={defaultValues?.collaborator?.name}
             errorsMessage={errors.collaborator?.name?.message}
           />
-          <Input
+          <InputRHF
             label='Cartão do colaborador:'
             name='collaborator.cardNumber'
             type='number'
@@ -205,7 +205,7 @@ export default function VisitorRegistrationForm() {
             cardProps={INDUSTRY}
             errorMessage={errors.collaborator?.industry?.message}
           />
-          <Input
+          <InputRHF
             label='Setor:'
             name='collaborator.sector'
             type='text'
@@ -217,6 +217,7 @@ export default function VisitorRegistrationForm() {
             label='Número de celular:'
             name='collaborator.telephoneNumber'
             type='text'
+            mask='(__) _____-____'
             register={register}
             defaultValue={defaultValues?.collaborator?.telephoneNumber}
             errorsMessage={errors.collaborator?.telephoneNumber?.message}

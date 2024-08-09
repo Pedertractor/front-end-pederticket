@@ -1,5 +1,4 @@
 import { UseFormRegister, Path, PathValue, FieldValues } from 'react-hook-form';
-import { InputMask } from '@react-input/mask';
 
 interface InputFieldProps<TFormValues extends FieldValues> {
   label: string;
@@ -8,26 +7,24 @@ interface InputFieldProps<TFormValues extends FieldValues> {
   errorsMessage: string | undefined;
   register: UseFormRegister<TFormValues>;
   defaultValue?: PathValue<TFormValues, Path<TFormValues>>;
-  mask: string;
 }
 
-export function InputWithMask<TFormValues extends FieldValues>({
+export function InputRHF<TFormValues extends FieldValues>({
   label,
   name,
+  type,
   errorsMessage,
   register,
   defaultValue,
-  mask,
 }: InputFieldProps<TFormValues>) {
   return (
-    <div className='flex flex-col gap-2 mt-2'>
-      <label className='text-sm font-semibold min-[380px]:text-base'>
+    <div className='text-sm flex flex-col gap-2 mt-2'>
+      <label className='flextext-sm font-semibold min-[380px]:text-base'>
         {label}
-        <InputMask
+        <input
           {...register(name)}
-          mask={mask}
-          replacement={{ _: /\d/ }}
           className='w-full border-2 p-1.5 min-[380px]:py-2.5 rounded-md'
+          type={type}
           defaultValue={defaultValue as string | number | undefined}
         />
       </label>

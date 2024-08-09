@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 export const FamilyMemberSchema = z.object({
   name: z.string().min(1, 'Nome é obrigatório!'),
-  rg: z.string().length(9, 'Digite um RG válido'),
+  rg: z.string().length(14, 'Digite um CPF válido'),
   dateOfBirth: z.coerce
     .date({
       errorMap: (issue) => ({

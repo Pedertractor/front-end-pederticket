@@ -7,9 +7,10 @@ import {
   FamilyMemberType,
   VisitorRegistrationType,
 } from '../../types/visitor-registration';
-import { Input } from '../../components/ui/Input';
+import { InputRHF } from '../../components/ui/InputRHF';
 import { InputSelect } from '../../components/ui/InputSelect';
 import { toast } from '@/components/ui/use-toast';
+import { InputWithMask } from '@/components/ui/InputWithMask';
 
 export default function AddFamilyMember() {
   const { getValues, setValue } = useFormContext<VisitorRegistrationType>();
@@ -56,7 +57,7 @@ export default function AddFamilyMember() {
           Cadastrar para o evento da família
         </h1>
 
-        <Input
+        <InputRHF
           label='Nome do familiar:'
           name='name'
           type='text'
@@ -65,16 +66,26 @@ export default function AddFamilyMember() {
           errorsMessage={errors.name?.message}
         />
 
-        <Input
+        {/* <InputRHF
           label='RG do familiar:'
           name='rg'
           type='text'
           register={register}
           defaultValue={defaultValues?.rg}
           errorsMessage={errors.rg?.message}
+        /> */}
+
+        <InputWithMask
+          label='CPF do familiar:'
+          name='rg'
+          type='text'
+          mask='___.___.___-__'
+          register={register}
+          defaultValue={defaultValues?.rg}
+          errorsMessage={errors.rg?.message}
         />
 
-        <Input
+        <InputRHF
           label='Data de nascimento:'
           name='dateOfBirth'
           type='date'

@@ -56,7 +56,7 @@ export type availableOptionsQueryType = {
 };
 
 export type Register = {
-  ticketId: number;
+  ticketId: string;
   collaboratorName: string;
   cardNumber: string;
   qtdFamilyMembers: number;

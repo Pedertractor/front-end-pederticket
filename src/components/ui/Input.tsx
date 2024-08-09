@@ -1,38 +1,25 @@
-import { UseFormRegister, Path, PathValue, FieldValues } from 'react-hook-form';
+import * as React from "react"
 
-interface InputFieldProps<TFormValues extends FieldValues> {
-  label: string;
-  name: Path<TFormValues>;
-  type: 'text' | 'date' | 'number';
-  errorsMessage: string | undefined;
-  register: UseFormRegister<TFormValues>;
-  defaultValue?: PathValue<TFormValues, Path<TFormValues>>;
-}
+import { cn } from "@/lib/utils"
 
-export function Input<TFormValues extends FieldValues>({
-  label,
-  name,
-  type,
-  errorsMessage,
-  register,
-  defaultValue,
-}: InputFieldProps<TFormValues>) {
-  return (
-    <div className='text-sm flex flex-col gap-2 mt-2'>
-      <label className='flextext-sm font-semibold min-[380px]:text-base'>
-        {label}
-        <input
-          {...register(name)}
-          className='w-full border-2 p-1.5 min-[380px]:py-2.5 rounded-md'
-          type={type}
-          defaultValue={defaultValue as string | number | undefined}
-        />
-      </label>
-      <div className='flex min-h-4'>
-        {errorsMessage && (
-          <span className='text-xs text-red-600'>{errorsMessage}</span>
+export interface InputProps
+  extends React.InputHTMLAttributes<HTMLInputElement> {}
+
+const Input = React.forwardRef<HTMLInputElement, InputProps>(
+  ({ className, type, ...props }, ref) => {
+    return (
+      <input
+        type={type}
+        className={cn(
+          "flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50",
+          className
         )}
-      </div>
-    </div>
-  );
-}
+        ref={ref}
+        {...props}
+      />
+    )
+  }
+)
+Input.displayName = "Input"
+
+export { Input }
