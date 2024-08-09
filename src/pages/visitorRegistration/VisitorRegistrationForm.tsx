@@ -6,19 +6,17 @@ import {
   getAvailableOptions,
   submitVisitorRegistration,
 } from '../../api/api';
-import { VisitorRegistrationType } from '../../types/visitor-registration';
+import {
+  availableOptionsQueryType,
+  groupCardType,
+  VisitorRegistrationType,
+} from '../../types/visitor-registration';
 import { Input } from '../../components/ui/Input';
 import { ChosenGroups } from '../../components/visitorRegistration/ChosenGroups';
 import { useEffect, useState } from 'react';
 import { InputWithMask } from '../../components/ui/InputWithMask';
-
-type groupCardProps = { title: string; description: string; active: boolean };
-export type availableOptionsQuery = {
-  date: string;
-  totalOptionOne: number;
-  totalOptionTwo: number;
-  totalOptionThree: number;
-};
+import { toast } from '@/components/ui/use-toast';
+import { DAY_CARD_PROPS, INDUSTRY } from '@/common/constants';
 
 export default function VisitorRegistrationForm() {
   const {
@@ -35,9 +33,7 @@ export default function VisitorRegistrationForm() {
   } = useFormContext<VisitorRegistrationType>();
 
   const [showPopup, setShowPopup] = useState(false);
-  const [availableOptionsList, setAvailableOptions] = useState<
-    groupCardProps[]
-  >([]);
+  const [availableOptions, setAvailableOptions] = useState<groupCardType[]>([]);
   const navigate = useNavigate();
 
   const valuesOfFamilyMembers = watch('collaborator.familyMembers');
@@ -46,15 +42,15 @@ export default function VisitorRegistrationForm() {
   useEffect(() => {
     const fetchTicketData = async () => {
       try {
-        const availableOptions: availableOptionsQuery[] =
+        const availableOptionsData: availableOptionsQueryType[] =
           await getAvailableOptions();
 
-        if (availableOptions && valueOfChosenDay !== '') {
+        if (availableOptionsData && valueOfChosenDay !== '') {
           const valueOfChosenDayDate = new Date(valueOfChosenDay)
             .toISOString()
             .slice(0, 10);
 
-          const existingDate = availableOptions.find((item) => {
+          const existingDate = availableOptionsData.find((item) => {
             const valueOfChosenDayConvert = new Date(item.date)
               .toISOString()
               .slice(0, 10);
@@ -107,25 +103,18 @@ export default function VisitorRegistrationForm() {
     fetchTicketData();
   }, [valueOfChosenDay, setValue]);
 
-  const industry = [
-    { description: 'pedertractor', active: true },
-    { description: 'tractor', active: true },
-  ];
-
-  const dayCardProps = [
-    { title: 'Dia 01', description: '16/12/2024', active: true },
-    { title: 'Dia 02', description: '17/12/2024', active: true },
-    { title: 'Dia 03', description: '18/12/2024', active: true },
-    { title: 'Dia 04', description: '19/12/2024', active: true },
-    { title: 'Dia 05', description: '20/12/2024', active: true },
-  ];
-
   const deleteFamilyMember = (rg: string) => {
     const filteredFamilyMember = valuesOfFamilyMembers?.filter(
       (item) => item.rg != rg
     );
 
     setValue('collaborator.familyMembers', filteredFamilyMember);
+
+    toast({
+      title: 'Membro da familia removido!',
+      duration: 2000,
+      className: 'border border-amber-400 w-11/12 mx-auto mt-2',
+    });
   };
 
   const validateSubmit = async () => {
@@ -143,10 +132,16 @@ export default function VisitorRegistrationForm() {
       industry
     );
 
-    if (isDuplicated !== undefined && isDuplicated.existing === true) {
+    if (isDuplicated.existing === true) {
       setError('collaborator.cardNumber', {
         type: 'manual',
         message: 'O cartão já está registrado!',
+      });
+
+      toast({
+        title: 'Cartão já registrado!',
+        className: 'border border-red-400 w-11/12 mx-auto mt-2',
+        duration: 2000,
       });
     } else {
       if (valuesOfFamilyMembers.length > 0) {
@@ -184,7 +179,6 @@ export default function VisitorRegistrationForm() {
           <h1 className='font-bold mb-4 min-[380px]:text-lg  min-[380px]:mb-6'>
             Área de cadastro
           </h1>
-
           <Input
             label='Nome do colaborador:'
             name='collaborator.name'
@@ -193,7 +187,6 @@ export default function VisitorRegistrationForm() {
             defaultValue={defaultValues?.collaborator?.name}
             errorsMessage={errors.collaborator?.name?.message}
           />
-
           <Input
             label='Cartão do colaborador:'
             name='collaborator.cardNumber'
@@ -202,7 +195,6 @@ export default function VisitorRegistrationForm() {
             defaultValue={defaultValues?.collaborator?.cardNumber}
             errorsMessage={errors.collaborator?.cardNumber?.message}
           />
-
           <ChosenGroups
             control={control}
             name='collaborator.industry'
@@ -210,10 +202,9 @@ export default function VisitorRegistrationForm() {
             value={['pedertractor', 'tractor']}
             register={register}
             defaultValue={defaultValues?.collaborator?.industry}
-            cardProps={industry}
+            cardProps={INDUSTRY}
             errorMessage={errors.collaborator?.industry?.message}
           />
-
           <Input
             label='Setor:'
             name='collaborator.sector'
@@ -222,7 +213,6 @@ export default function VisitorRegistrationForm() {
             defaultValue={defaultValues?.collaborator?.sector}
             errorsMessage={errors.collaborator?.sector?.message}
           />
-
           <InputWithMask
             label='Número de celular:'
             name='collaborator.telephoneNumber'
@@ -231,7 +221,6 @@ export default function VisitorRegistrationForm() {
             defaultValue={defaultValues?.collaborator?.telephoneNumber}
             errorsMessage={errors.collaborator?.telephoneNumber?.message}
           />
-
           <ChosenGroups
             name='chosenDay'
             label='Selecione o dia:'
@@ -245,11 +234,10 @@ export default function VisitorRegistrationForm() {
             register={register}
             control={control}
             defaultValue={defaultValues?.chosenDay}
-            cardProps={dayCardProps}
+            cardProps={DAY_CARD_PROPS}
             errorMessage={errors.chosenDay?.message}
           />
-
-          {availableOptionsList.length > 0 ? (
+          {availableOptions.length > 0 ? (
             <ChosenGroups
               name='chosenGroup'
               label='Selecione a turma:'
@@ -257,14 +245,13 @@ export default function VisitorRegistrationForm() {
               register={register}
               control={control}
               defaultValue={defaultValues?.chosenGroup}
-              cardProps={availableOptionsList}
+              cardProps={availableOptions}
               errorMessage={errors.chosenGroup?.message}
             />
           ) : (
             ''
           )}
         </div>
-
         {valuesOfFamilyMembers && valuesOfFamilyMembers?.length > 0 && (
           <div className='flex flex-col min-h-28'>
             <p className='text-sm font-semibold min-[380px]:text-base'>
@@ -292,7 +279,6 @@ export default function VisitorRegistrationForm() {
             </ul>
           </div>
         )}
-
         <div className='flex gap-x-4'>
           <Link
             to={'/cadastrar/adicionar-familia'}
@@ -301,7 +287,6 @@ export default function VisitorRegistrationForm() {
           >
             + Familiar
           </Link>
-
           <button
             className={
               isSubmitting

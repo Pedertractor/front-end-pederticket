@@ -22,6 +22,7 @@ export default function ChosenOptionsCard({
       >
         {title ? title : null}
       </span>
+
       <span
         className={`text-xs min-[380px]:text-sm ${
           !active ? 'text-stone-300 pointer-events-none line-through' : ''
@@ -29,6 +30,7 @@ export default function ChosenOptionsCard({
       >
         {description}
       </span>
+
       <span
         className={`text-xs min-[380px]:text-sm ${
           !active ? 'text-stone-500 pointer-events-none' : ''

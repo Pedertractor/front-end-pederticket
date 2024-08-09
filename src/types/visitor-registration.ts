@@ -41,3 +41,16 @@ export interface TicketDataType {
     nome: string;
   };
 }
+
+export type groupCardType = {
+  title: string;
+  description: string;
+  active: boolean;
+};
+
+export type availableOptionsQueryType = {
+  date: string;
+  totalOptionOne: number;
+  totalOptionTwo: number;
+  totalOptionThree: number;
+};

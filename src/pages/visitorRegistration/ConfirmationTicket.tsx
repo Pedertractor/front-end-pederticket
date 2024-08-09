@@ -24,7 +24,7 @@ export default function ConfirmationTicket() {
   }, [publicTicketId]);
 
   return (
-    <main className=' h-full bg-stone-600 p-4'>
+    <main className=' h-full bg-stone-200 p-4'>
       <div className='flex flex-col'>
         <section className='bg-white rounded-t-md px-4'>
           <div className=' items-center flex justify-between py-6'>
@@ -101,7 +101,7 @@ export default function ConfirmationTicket() {
             </section>
 
             <section className='flex items-center justify-center corner-top py-4 bg-white rounded-b-md'>
-              <div className=' w-full  flex flex-col items-center justify-center col-span-1 rounded-md'>
+              <div className=' w-full flex flex-col items-center justify-center col-span-1 rounded-md'>
                 <p className='text-stone-600 text-center font-bold'>
                   Código do ticket
                 </p>

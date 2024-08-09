@@ -30,7 +30,7 @@ export function InputSelect<TFormValues extends FieldValues>({
         {label}
         <select
           {...register(name)}
-          className='w-full border-2 p-1.5 rounded-md divide-y  min-[380px]:py-2.5'
+          className='w-full border-2 p-1.5 rounded-md divide-y min-[380px]:py-2.5'
           defaultValue={defaultValue as string | string[] | undefined}
           multiple={multiple}
         >

@@ -9,6 +9,7 @@ import {
 } from '../../types/visitor-registration';
 import { Input } from '../../components/ui/Input';
 import { InputSelect } from '../../components/ui/InputSelect';
+import { toast } from '@/components/ui/use-toast';
 
 export default function AddFamilyMember() {
   const { getValues, setValue } = useFormContext<VisitorRegistrationType>();
@@ -35,6 +36,12 @@ export default function AddFamilyMember() {
       'collaborator.familyMembers',
       familyMembers ? [...familyMembers, data] : [data]
     );
+
+    toast({
+      title: 'Membro da familia adicionado.',
+      duration: 2000,
+      className: 'border border-green-400 w-11/12 mx-auto mt-2',
+    });
 
     navigate('/cadastrar');
   };

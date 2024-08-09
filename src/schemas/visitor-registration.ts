@@ -11,7 +11,7 @@ export const FamilyMemberSchema = z.object({
       }),
     })
     .max(new Date(), { message: 'A data não pode estar no futuro' }),
-  degreeOfKinship: z.enum(['children', 'husband', 'parents', 'brothers']),
+  degreeOfKinship: z.enum(['children', 'husband', 'parents', 'lover']),
 });
 
 export const CollaboratorSchema = z.object({

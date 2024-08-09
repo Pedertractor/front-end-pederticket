@@ -5,6 +5,19 @@ export const DEGREE_OF_KINSHIP = [
   { name: 'Nomorado/Namorada', value: 'lover' },
 ];
 
+export const DAY_CARD_PROPS = [
+  { title: 'Dia 01', description: '16/12/2024', active: true },
+  { title: 'Dia 02', description: '17/12/2024', active: true },
+  { title: 'Dia 03', description: '18/12/2024', active: true },
+  { title: 'Dia 04', description: '19/12/2024', active: true },
+  { title: 'Dia 05', description: '20/12/2024', active: true },
+];
+
+export const INDUSTRY = [
+  { description: 'pedertractor', active: true },
+  { description: 'tractor', active: true },
+];
+
 export const SECTOR_LIST = [
   {
     name: 'SOLDA MONTAGEM ROBOTIZADA B2',
