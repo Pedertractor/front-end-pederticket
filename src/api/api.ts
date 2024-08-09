@@ -1,4 +1,7 @@
-import { availableOptionsQuery } from '../pages/visitorRegistration/VisitorRegistrationForm';
+import {
+  availableOptionsQueryType,
+  Register,
+} from '../types/visitor-registration';
 import { VisitorRegistrationType } from '../types/visitor-registration';
 
 const url: string = import.meta.env.VITE_BASE_URL_API;
@@ -43,7 +46,9 @@ export async function getTicket(publicTicketId: string) {
   }
 }
 
-export async function getAvailableOptions(): Promise<availableOptionsQuery[]> {
+export async function getAvailableOptions(): Promise<
+  availableOptionsQueryType[]
+> {
   try {
     const response = await fetch(`${url}/ticket/available-options`, {
       method: 'GET',
@@ -79,5 +84,23 @@ export async function checkDuplicatedCardNumber(
     return data;
   } catch (error) {
     console.log(error);
+  }
+}
+
+export async function getAllRegisters(): Promise<Register[]> {
+  try {
+    const response = await fetch(`${url}/admin/all-registers`, {
+      method: 'GET',
+      headers: {
+        'Content-type': 'application/json',
+      },
+    });
+
+    const data = await response.json();
+
+    return data ? data : [];
+  } catch (error) {
+    console.log(error);
+    return [];
   }
 }
