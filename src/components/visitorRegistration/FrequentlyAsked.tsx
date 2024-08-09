@@ -48,9 +48,9 @@ export function FrequentlyAsked() {
             </p>
             <ul className=' list-disc text-[13px] pl-5 mb-2'>
               <li>filhos</li>
+              <li>pai e mãe</li>
               <li>namorado(a)</li>
               <li>esposa e marido</li>
-              <li>pai e mãe (caso morar junto)</li>
             </ul>
           </div>
         </details>
