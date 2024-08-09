@@ -5,10 +5,10 @@ import path from 'path';
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-  server: {
-    host: '10.20.60.28',
-    port: 1818,
-  },
+  // server: {
+  //   host: '10.20.60.28',
+  //   port: 1818,
+  // },
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),

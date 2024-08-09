@@ -4,6 +4,7 @@ import Informations from './pages/familyWeek/Informations';
 import Welcome from './pages/familyWeek/Welcome';
 import ConfirmationTicket from './pages/visitorRegistration/ConfirmationTicket';
 import RegisterList from './pages/admin/registerList';
+import Home from './pages/admin/home';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           element={<ConfirmationTicket />}
         />
         <Route path='/admin/all-registers' element={<RegisterList />} />
+        <Route path='/admin/home' element={<Home />} />
       </Routes>
     </BrowserRouter>
   );
